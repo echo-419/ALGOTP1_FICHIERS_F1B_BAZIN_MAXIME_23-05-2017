@@ -1,0 +1,284 @@
+//But: conjuguer une liste de verbe en indiquand leurs groupe
+//Entrer:
+//Sortie:un ficher qui donne le groupe de chaque verbe et sa conjugaison
+
+//liste des fichiers
+TYPE	
+	 verbe = TEXTE		//qui contiendra les verbes à l'infinitif
+	 issant = TEXTE		//qui contiendra les verbes en issant
+	 conjugaisson = TEXTE  //qui contiendra le groupe puis la conjugaison de chaque verbe
+
+FINTYPE
+
+//liste des tableaux
+TYPE
+	Tableau = TABLEAU DE 1 A 6 DE CHAINE 	
+	Tableau_verbe =  TABLEAU DE 1 A 13 DE CHAINE
+FINTYPE
+
+//liste de varible
+VAR 
+	pronom: tableau 			//contiendra les pronom personel
+	Terminaison_1 : tableaux 	//y seront stocké le terminaisons deu 1er groupe
+	Terminaison_2 : tableaux 	//y seront stocké le terminaisons deu 2eme groupe
+	Terminaison_3 : tableaux 	//y seront stocké le terminaisons deu 3eme groupe
+	verbe_infinitif:tableau_verbe 	//sera remplit avec la liste des verbes à l'ifinitif
+	verbe_issant:tableau_verbe		//sera remplit avec la liste des verbes en issant
+	f_infinitif:verbe 			//fichier ou seront écrient les verbes à l'ifinitif
+	f_issant:issant 			//fichier ou seront écrient les verbes en issant
+	f_conjugaison:conjugaison 	//fichier ou sera écrit le groupe puis la conjugaison de chaque verbe
+
+	
+
+//remplissage du tableau avec les verbes à l'infinitif
+procedure init_infinitif
+
+debut
+	verbe_infinitif[1]<-'rire'
+	verbe_infinitif[2]<-'recevoir'
+	verbe_infinitif[3]<-'aller'
+	verbe_infinitif[4]<-'bouillir'
+	verbe_infinitif[5]<-'envoyer'
+	verbe_infinitif[6]<-'peindre'
+	verbe_infinitif[7]<-'habiter'
+	verbe_infinitif[8]<-'payer'
+	verbe_infinitif[9]<-'mourir'
+	verbe_infinitif[10]<-'hair'
+	verbe_infinitif[11]<-'vouloir'
+	verbe_infinitif[12]<-'finir'
+	verbe_infinitif[13]<-'amuser'
+finprocedure
+
+//remplissage du tableau avec les verbes en issant
+procedure init_issant
+
+Debut
+	verbe_issant[1]<-'mourir'
+	verbe_issant[2]<-'partir'
+	verbe_issant[3]<-'venir'
+	verbe_issant[4]<-'decouvrir'
+	verbe_issant[5]<-'souffrir'
+
+finprocedure
+
+//remplissage du tableau avec les terminaisons du 1er groupe
+procedure init_trem1
+
+Debut
+	terminaison_1[1]<-'e'
+	terminaison_1[2]<-'es'
+	terminaison_1[3]<-'e'
+	terminaison_1[4]<-'ons'
+	terminaison_1[5]<-'ez'
+	terminaison_1[6]<-'ent'
+
+finprocedure
+
+//remplissage du tableau avec les pronom personnel
+procedure init_pronom
+
+Debut
+	pronom[1]<-'je'
+	pronom[2]<-'tu'
+	pronom[3]<-'il'
+	pronom[4]<-'nous'
+	pronom[5]<-'vous'
+	pronom[6]<-'ils'
+
+finprocedure
+
+//remplissage du tableau avec les terminaisons du 2eme groupe
+procedure init_trem2
+
+Debut
+	terminaison_2[1]<-'is'
+	terminaison_2[2]<-'is'
+	terminaison_2[3]<-'it'
+	terminaison_2[4]<-'ions'
+	terminaison_2[5]<-'iez'
+	terminaison_2[6]<-'issent'
+
+finprocedure
+
+//remplissage du tableau avec les terminaisons du 3eme groupe
+procedure init_trem3
+
+Debut
+	terminaison_3[1]<-'e'
+	terminaison_3[2]<-'es'
+	terminaison_3[3]<-'e'
+	terminaison_3[4]<-'ons'
+	terminaison_3[5]<-'ez'
+	terminaison_3[6]<-'ent'
+
+finprocedure
+
+//création du fichier des verbes un l'infinitif
+procedure fiche_infinitif
+Var 
+	i:ENTIER
+
+debut
+	assigner(f_infinitif, 'fch_infinitif')
+	ouvrir(f_infinitif)
+	Pour i de 1 a 13 faire 
+		debut
+			ECRIRE(f_infinitif,verbe_infinitif[i])
+		fin
+	FERMER(f_infinitif)
+finprocedure
+
+//création du fichier des verbes en issant
+procedure fiche_issant
+Var 
+	i:entier
+debut
+	assigner(f_issant, 'fch_issant')
+	ouvrir(f_issant)
+	Pour i de 1 a 5 faire
+		debut
+			ECRIRIRE(f_issant,verbe_issant[i])
+		fin
+	fermer(f_issant)
+finprocedure
+
+//affichage de f_infinitif
+procedure affiche_infinitif
+var 
+	i:entier
+
+debut
+	ouvrir(f_infinitif)
+	TANT QUE non Eof(f_infinitif) faire
+		Debut
+			Lire(f_infinitif,i)
+			Ecrire(f_infinitif,i)
+		fin
+		fermer(f_infinitif)
+finprocedure
+
+//affichage de f_issant
+procedure affiche_issant
+var 
+	i:entier
+
+debut
+	ouvrir(f_issant)
+	TANT QUE non Eof(f_issant) faire
+		Debut
+			Lire(f_issant,i)
+			Ecrire(f_issant,i)
+		fin
+		fermer(f_issant)
+finprocedure
+
+//test si 1er groupe
+fonction test_grp1(mot:Chaine) de Booleen
+
+debut
+	SI EXTRACTION(mot,LONGUEUR(mot)-1 = er OU mot='aller' faire
+		test_grp1<-VRAI
+	sinon
+		test_grp1<-FAUX
+	FINSI
+FIN
+
+//test si 2eme groupe
+//il manque un verification des issant
+fonction test_grp2(mot:Chaine) de Booleen
+
+debut
+	SI EXTRACTION(mot,LONGUEUR(mot)-1 = 'ir' ET EXTRACTION(mot,LONGUEUR(mot)-1<> 'oir' faire
+		test_grp2<-VRAI
+	sinon
+		test_grp2<-FAUX
+	FINSI
+FIN
+
+//test si 3eme groupe
+fonction test_grp3(test_grp1,test_grp2:booleen) de Booleen
+
+debut
+	SI test_gr1=FAUX ET test_grp2=FAUX faire
+		test_grp3<-VRAI
+	sinon
+		test_grp3<-FAUX
+	FINSI
+FIN
+
+//remplissage du fichier donnant le groupe du verbe te sa conjugaison
+//on n'a pas defint les exceptions des groupe
+procedure conjugaison
+var
+	i,j:entier
+debut
+	assigner(f_conjugaison,'fch')
+	ouvrir(f_conjugaison)
+	ouvrir(f_infinitif)
+	For i de 1 a 13 faire
+	debut
+		lire(f_ifinitif,i)
+		test_grp1(verbe_infinitif[i])
+		test_grp2(verbe_infinitif[i])
+		test_grp3(verbe_infinitif[i])
+		if test_grp1(=VRAI alors
+		debut
+			ouvrir(terminaison_1)
+			ajouter(f_conjugaison)
+			Ecrire('c est un verbe du 1er groupe')
+			for j de 1 a 6 faire
+			debut
+				Lire(verbe_infinitif,i)
+				Lire(terminaison_1,j)
+				ECRIRE(pronom,' ',extraction(verbe_infinitif[i],1,LONGUEUR(verbe_infinitif)-2)+terminaison_1[j])
+			fin
+			fermer(terminaison_1)
+		fin
+		if test_grp2=VRAI alors
+		debut
+			ouvrir(terminaison_2)
+			ajouter(f_conjugaison)
+			Ecrire('c est un verbe du 2eme groupe')
+			for j de 1 a 6 faire
+			debut
+				Lire(verbe_infinitif,i)
+				Lire(terminaison_2,j)
+				ECRIRE(pronom,' ',extraction(verbe_infinitif[i],1,LONGUEUR(verbe_infinitif)-2)+terminaison_2[j])
+			fin
+			fermer(terminaison_2)
+		fin
+		if test_grp3=VRAI alors
+		debut
+			ouvrir(terminaison_3)
+			ajouter(f_conjugaison)
+			Ecrire('c est un verbe du 3eme groupe')
+			for j de 1 a 6 faire
+			debut
+				Lire(verbe_infinitif,i)
+				Lire(terminaison_3,j)
+				ECRIRE(pronom,' ',extraction(verbe_infinitif[i],1,LONGUEUR(verbe_infinitif)-2)+terminaison_3[j])
+			fin
+			fermer(terminaison_3)
+		fin
+	fin
+	fermer(f_conjugaison)
+	fermer(f_infinitif)
+fin
+
+
+
+DEBUT
+	init_infinitif
+	init_issant
+	init_trem1
+	init_trem2
+	init_trem3
+	init_pronom
+	fiche_infinitif
+	fiche_issant	
+	affiche_infinitif
+	affiche_issant
+	conjugaison
+
+	
+FIN.
